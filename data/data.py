@@ -1,19 +1,34 @@
 # -*- coding: utf-8 -*
+
+from __future__ import absolute_import
+from __future__ import print_function
+from __future__ import division
+
 import tensorflow as tf
 
-raw_data = tf.random_uniform([4, 10])
-print(raw_data)
+from preporcessing import RawDli
 
-dataset1 = tf.contrib.data.Dataset.from_tensor_slices(raw_data)
-print(dataset1.output_types)  # ==> "tf.float32"
-print(dataset1.output_shapes)  # ==> "(10,)"
 
-dataset2 = tf.contrib.data.Dataset.from_tensor_slices(
-   (tf.random_uniform([4]),
-    tf.random_uniform([4, 50], maxval=100, dtype=tf.int32)))
-print(dataset2.output_types)  # ==> "(tf.float32, tf.int32)"
-print(dataset2.output_shapes)  # ==> "((), (100,))"
+class DliDataSet(object):
 
-dataset3 = tf.contrib.data.Dataset.zip((dataset1, dataset2))
-print(dataset3.output_types)  # ==> (tf.float32, (tf.float32, tf.int32))
-print(dataset3.output_shapes)  # ==> "(10, ((), (100,)))"
+    def __init__(self):
+        self._raw_dli = RawDli()
+        self._norm_arr = self._raw_dli.normalization()
+        self.dli_dataset = tf.contrib.data.Dataset.from_tensor_slices(self._norm_arr)
+
+    def next_batch(self, batch_size=512):
+        batched_dataset = self.dli_dataset.batch(batch_size)
+        iterator = batched_dataset.make_one_shot_iterator()
+        return iterator.get_next()
+
+    # iterator = dli_dataset.make_initialzable_iterator()
+    # data_placeholder = tf.placeholder(dli_dataset.output_types, dli_dataset.output_shapes)
+
+
+if __name__ == '__main__':
+    with tf.Session() as sess:
+        # value = sess.run(iterator.initializer, feed_dict={data_placeholder: norm_arr})
+        dli_dataset = DliDataSet()
+        for i in range(10):
+            value = sess.run(dli_dataset.next_batch(1024))
+            print(value)

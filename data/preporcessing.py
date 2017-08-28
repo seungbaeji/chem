@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*
 
+from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import division
+
 import pandas as pd
-import math
 import numpy as np
+import math
+
+from array import array
 from config import dli_file
 
 
@@ -26,7 +30,8 @@ class RawDli(object):
             normalized_dli = (dli_input - mean) / std
             conditions = 0 < normalized_dli
             # numpy.log gives this warning when its input is negative
-            logarithm_dli = [math.log(x+1) if c else -math.log(-x+1) for (c, x) in zip(conditions, normalized_dli)]
+            logarithm_dli = array('d', (math.log(x+1) if c else -math.log(-x+1)
+                                        for (c, x) in zip(conditions, normalized_dli)))
             return logarithm_dli
 
         result = np.array([norm_func(dli_data) for dli_data in self._raw_dli.values.T]).T
@@ -37,5 +42,3 @@ if __name__ == '__main__':
     raw_dli = RawDli()
     norm_arr = raw_dli.normalization()
     print(norm_arr.shape)
-
-print(norm_arr[:100])
