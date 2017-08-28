@@ -10,7 +10,7 @@ print(dataset1.output_shapes)  # ==> "(10,)"
 
 dataset2 = tf.contrib.data.Dataset.from_tensor_slices(
    (tf.random_uniform([4]),
-    tf.random_uniform([4, 500], maxval=100, dtype=tf.int32)))
+    tf.random_uniform([4, 50], maxval=100, dtype=tf.int32)))
 print(dataset2.output_types)  # ==> "(tf.float32, tf.int32)"
 print(dataset2.output_shapes)  # ==> "((), (100,))"
 

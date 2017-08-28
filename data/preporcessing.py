@@ -3,6 +3,7 @@
 from __future__ import print_function
 from __future__ import division
 import pandas as pd
+import math
 import numpy as np
 from config import dli_file
 
@@ -23,12 +24,9 @@ class RawDli(object):
             mean = dli_input.mean()
             std = dli_input.std()
             normalized_dli = (dli_input - mean) / std
-            condition = 0 < normalized_dli
-            right_side = np.log(normalized_dli + 1)
-            left_side = -np.log(-normalized_dli + 1)
+            conditions = 0 < normalized_dli
             # numpy.log gives this warning when its input is negative
-            np.seterr(all='ignore')
-            logarithm_dli = np.where(condition, right_side, left_side)
+            logarithm_dli = [math.log(x+1) if c else -math.log(-x+1) for (c, x) in zip(conditions, normalized_dli)]
             return logarithm_dli
 
         result = np.array([norm_func(dli_data) for dli_data in self._raw_dli.values.T]).T
