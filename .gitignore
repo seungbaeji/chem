@@ -2,3 +2,4 @@
 *.pyc
 *.[oa]
 /data/raw_data
+*config.py
