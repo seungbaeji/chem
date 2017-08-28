@@ -1,3 +1,4 @@
 .idea/
 *.pyc
 *.[oa]
+/data/raw_data
