@@ -5,14 +5,14 @@ from __future__ import print_function
 import tensorflow as tf
 import numpy as np
 
-from preprocessing import RawDli
 from config import dli_tf_record
+from config import dli_3331_instance_file_info, dli_3331_label_file_info
 from test import np_to_tfrecords
+from collect import CollectedDliDataInfo
 
-raw_dli = RawDli()
-raw_dli_arr = raw_dli.array()
 
-np_to_tfrecords(raw_dli_arr, raw_dli_arr, 'dli_tfr', True)
+class
+
 
 
 def ndarray_to_tfrecord(ndarray, file_path, verbose=True):
@@ -36,6 +36,12 @@ def ndarray_to_tfrecord(ndarray, file_path, verbose=True):
         tf_writer
 
         tf.train.Example
+
+
+if __name__ == '__main__':
+    collected_dli_data_info = CollectedDliDataInfo(dli_3331_instance_file_info, dli_3331_label_file_info)
+    instance, label, index = collected_dli_data_info.data_set()
+    np_to_tfrecords(instance, label, 'dli_tfr', True)
 
 
 
