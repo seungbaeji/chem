@@ -37,10 +37,10 @@ def ndarray_to_tfrecord(ndarray, file_path, verbose=True):
         tf.train.Example
 
 
-if __name__ == '__main__':
-    collected_dli_data_info = CollectedDliDataInfo(dli_3331_instance_file_info, dli_3331_label_file_info)
-    instance, label, index = collected_dli_data_info.data_set()
-    np_to_tfrecords(instance, label, 'dli_tfr', True)
+
+collected_dli_data_info = CollectedDliDataInfo(dli_3331_instance_file_info, dli_3331_label_file_info)
+instance, label, index = collected_dli_data_info.data_set()
+np_to_tfrecords(instance, label, 'dli_tfr', True)
 
 
 

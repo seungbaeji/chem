@@ -32,15 +32,15 @@ class DliDataSet(object):
     # data_placeholder = tf.placeholder(dli_dataset.output_types, dli_dataset.output_shapes)
 
 
-if __name__ == '__main__':
-    with tf.Session() as sess:
-        # value = sess.run(iterator.initializer, feed_dict={data_placeholder: norm_arr})
-        dli_dataset = DliDataSet()
-        batch_size = 2056
-        total_epoch = int(round(len(dli_dataset)/batch_size))
-        print(len(dli_dataset), total_epoch)
 
-        for i in range(10):
-            for j in range(total_epoch):
-                value = sess.run(dli_dataset.next_batch(batch_size))
-                print(i, j)
+with tf.Session() as sess:
+    # value = sess.run(iterator.initializer, feed_dict={data_placeholder: norm_arr})
+    dli_dataset = DliDataSet()
+    batch_size = 2056
+    total_epoch = int(round(len(dli_dataset)/batch_size))
+    print(len(dli_dataset), total_epoch)
+
+    for i in range(10):
+        for j in range(total_epoch):
+            value = sess.run(dli_dataset.next_batch(batch_size))
+            print(i, j)

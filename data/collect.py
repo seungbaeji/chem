@@ -6,7 +6,7 @@ from __future__ import division
 import tensorflow as tf
 import numpy as np
 import pandas as pd
-import abc
+from abc import abstractmethod
 
 from scipy import io
 from config import dli_3331_instance_file_info, dli_3331_label_file_info
@@ -32,12 +32,12 @@ class CollectedDataInfo(object):
         self._label_index_col = label_file_info.index_col
 
     def __repr__(self):
-        return 'instance path="{}", sep="{}", index_col="{}"\n' \
-               'label_path="{}", sep="{}", index_col="{}"'\
-            .format(self._instance_path, self._instance_sep, self._instance_index_col,
-                    self._label_path, self._label_sep, self._label_index_col)
+        fmt = "<Data Info: instance path='{}, sep='{}', index_col='{}'\n" \
+              "label_path='{}', sep='{}', index_col='{}'>"
+        return fmt.format(self._instance_path, self._instance_sep, self._instance_index_col,
+                          self._label_path, self._label_sep, self._label_index_col)
 
-    @abc.abstractmethod
+    @abstractmethod
     def data_set(self):
         """
         DataSet of the collected data information
@@ -68,11 +68,11 @@ class CollectedDliDataInfo(CollectedDataInfo):
 #     file_path = dli_tf_record.file_path
 
 
-if __name__ == '__main__':
-    # raw_dli = RawDli()
-    # raw_target = RawTarget()
-    collected_dli_data_info = CollectedDliDataInfo(dli_3331_instance_file_info, dli_3331_label_file_info)
-    print(collected_dli_data_info)
-    collected_data_set = collected_dli_data_info.data_set()
+
+# raw_dli = RawDli()
+# raw_target = RawTarget()
+collected_dli_data_info = CollectedDliDataInfo(dli_3331_instance_file_info, dli_3331_label_file_info)
+print(collected_dli_data_info)
+dli_instance, dli_label, dli_index = collected_dli_data_info.data_set()
 
 
