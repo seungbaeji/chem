@@ -26,8 +26,7 @@ def ndarray_to_tfrecord(ndarray, file_path, verbose=True):
         elif dtype_ == np.int64:
             return lambda array: tf.train.Feature(int64_list=tf.train.Int64List(value=array))
         else:
-            raise ValueError("The input should be numpy ndarray. \
-                               Instaed got {}".format(ndarray.dtype))
+            raise ValueError("The input should be ndarray of numpy. Instead got {}".format(ndarray.dtype))
 
     file_path = dli_tf_record.file_path
     assert isinstance(ndarray, np.ndarray)

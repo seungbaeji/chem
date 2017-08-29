@@ -8,6 +8,12 @@ import numpy as np
 from sklearn.model_selection import KFold
 
 
+class SplitToTrainAndValid(KFold):
+
+    def __init__(self):
+        super(SplitToTrainAndValid, self).__init__()
+
+
 def k_fold_supervised(n_splits=10, selection=0, shuffle=True, random_state=0,
                       instance_array=None, label_array=None, index_array=None):
     kf = KFold(n_splits=n_splits, shuffle=shuffle, random_state=random_state)
