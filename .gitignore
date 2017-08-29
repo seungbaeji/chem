@@ -2,4 +2,7 @@
 *.pyc
 *.[oa]
 /data/raw_data
+/data/processed_data
+/model
+/network
 *config.py
