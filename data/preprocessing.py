@@ -7,9 +7,10 @@ import pandas as pd
 import numpy as np
 import math
 
+from scipy import csr_matrix
+from scipy import io
 from array import array
-from config import dli_file
-from config import dli_tf_record
+from config import dli_file, target_file
 
 
 class RawDli(object):
@@ -49,12 +50,26 @@ class RawDli(object):
         result = np.array([norm_func(dli_data) for dli_data in self._raw_dli.values.T]).T
         return result
 
+class RawTarget(object):
 
-def tf_record_of_dli(file_path):
-    file_path = dli_tf_record.file_path
+    file_path = target_file.file_path
+    sep = target_file.sep
+    index_col = target_file.index_col
 
+    def __init__(self):
+        self._raw_target = pd.read_csv(self.file_path, sep=self.sep, index_col=self.index_col)
+        assert isinstance(self._raw_target, pd.DataFrame)
 
+    def __len__(self):
+        return len(self._raw_target)
 
+    def data_frame(self):
+        return self._raw_target
+
+    def array(self):
+        return self._raw_target.values
+
+    def
 
 
 if __name__ == '__main__':

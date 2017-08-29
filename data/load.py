@@ -5,15 +5,20 @@ from __future__ import division
 
 import tensorflow as tf
 
-from data_collect import RawDli
+from preprocessing import RawDli
+from config import dli_tf_record
 
 
 class DliDataSet(object):
 
     def __init__(self):
-        self._raw_dli = RawDli()
-        self._norm_arr = self._raw_dli.normalization()
-        self._dli_dataset = tf.contrib.data.Dataset.from_tensor_slices(self._norm_arr)
+        # TODO: tf_record file checking
+        if dli_tf_record.file_path is True:
+            pass
+        else:
+            self._raw_dli = RawDli()
+            self._norm_arr = self._raw_dli.normalization()
+            self._dli_dataset = tf.contrib.data.Dataset.from_tensor_slices(self._norm_arr)
 
     def __len__(self):
         return len(self._norm_arr)
