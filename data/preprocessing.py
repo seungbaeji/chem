@@ -7,17 +7,17 @@ import pandas as pd
 import numpy as np
 import math
 
-from scipy import csr_matrix
+from scipy.sparse import csr_matrix
 from scipy import io
 from array import array
-from config import dli_file, target_file
+from config import dli_file_info, target_file_info
 
 
 class RawDli(object):
 
-    file_path = dli_file.file_path
-    sep = dli_file.sep
-    index_col = dli_file.index_col
+    file_path = dli_file_info.file_path
+    sep = dli_file_info.sep
+    index_col = dli_file_info.index_col
 
     def __init__(self):
         self._raw_dli = pd.read_csv(self.file_path, sep=self.sep, index_col=self.index_col)
@@ -47,14 +47,16 @@ class RawDli(object):
                                         for (c, x) in zip(conditions, normalized_dli)))
             return logarithm_dli
 
-        result = np.array([norm_func(dli_data) for dli_data in self._raw_dli.values.T]).T
+        res = np.array([norm_func(dli_data) for dli_data in self._raw_dli.values.T]).T
+        result = pd.DataFrame(res, index=self._raw_dli.index.values)
         return result
+
 
 class RawTarget(object):
 
-    file_path = target_file.file_path
-    sep = target_file.sep
-    index_col = target_file.index_col
+    file_path = target_file_info.file_path
+    sep = target_file_info.sep
+    index_col = target_file_info.index_col
 
     def __init__(self):
         self._raw_target = pd.read_csv(self.file_path, sep=self.sep, index_col=self.index_col)
@@ -69,13 +71,12 @@ class RawTarget(object):
     def array(self):
         return self._raw_target.values
 
-    def
+    # def
 
 
 if __name__ == '__main__':
     raw_dli = RawDli()
-    print(len(raw_dli))
     raw_dli_arr = raw_dli.array()
     print(raw_dli_arr.shape)
-    norm_arr = raw_dli.normalization()
-    print(norm_arr.shape)
+    norm_dli_df = raw_dli.normalization()
+    norm_dli_df.to_csv('processed_data/dli_instance.csv', header=None)
